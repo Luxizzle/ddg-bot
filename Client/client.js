@@ -24,11 +24,12 @@ client.Dispatcher.once('GATEWAY_READY', () => {
 })
 
 client.Dispatcher.on('MESSAGE_CREATE', async (e) => {
-	if (client.User.can(Discordie.Permissions.Text.SEND_MESSAGES, msg.channel) == false) return;
 
 	var msg = e.message
 	var author = msg.member || msg.author
 	var content = msg.content
+
+	if (client.User.can(Discordie.Permissions.Text.SEND_MESSAGES, msg.channel) == false) return;
 
 	if (author.bot || author.isWebhook) return;
 
