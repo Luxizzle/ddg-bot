@@ -114,10 +114,20 @@ class DDGResponse {
 		if (this.data.Redirect !== '') {
 			return channel.sendMessage(this.data.Redirect)
 		}
+		
+		console.log(this.query)
+		console.log(this.data)
+		console.log(this.data.Answer)
+		console.log(typeof(this.data.Answer))
 
-		var title = typeof this.data.Answer === 'string' ? this.data.Answer : 'Can\'t parse answer, click me to go to DuckDuckGo.'
+		if (typeof this.data.Answer === 'string' && this.data.Answer !== '') {
+			this.builder.title(this.data.Answer)
+		} else {
+			this.builder.title('Can\'t parse answer, click me to go to DuckDuckGo.')
+		}
 
-		this.builder.title(title)
+		console.log(this.builder.embed.title)
+
 		this.builder.url('https://duckduckgo.com/?' + query.stringify({
 			q: this.query
 		}))
