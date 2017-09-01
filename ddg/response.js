@@ -114,11 +114,6 @@ class DDGResponse {
 		if (this.data.Redirect !== '') {
 			return channel.sendMessage(this.data.Redirect)
 		}
-		
-		console.log(this.query)
-		console.log(this.data)
-		console.log(this.data.Answer)
-		console.log(typeof(this.data.Answer))
 
 		if (typeof this.data.Answer === 'string' && this.data.Answer !== '') {
 			this.builder.title(this.data.Answer)
