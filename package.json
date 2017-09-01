@@ -1,0 +1,17 @@
+{
+  "name": "ddg-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discordie": "github:qeled/discordie#dev",
+    "dotenv": "^4.0.0",
+    "install": "^0.10.1",
+    "node-fetch": "^1.7.2"
+  }
+}
