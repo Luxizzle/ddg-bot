@@ -137,8 +137,6 @@ class DDGResponse {
 	Default(channel) {
 		
 	}
-
-	
 }
 
 module.exports = (...args) => new DDGResponse(...args)

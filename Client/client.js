@@ -10,10 +10,10 @@ process.on('message', (msg) => {
 	}
 })
 
-var Discord = require('discordie');
+var Discordie = require('discordie');
 var ddg = require('../ddg')
 
-var client = new Discord({
+var client = new Discordie({
 	autoReconnect: true,
 	shardId: parseInt(process.env.SHARD_ID),
 	shardCount: parseInt(process.env.SHARD_COUNT)
@@ -32,21 +32,22 @@ client.Dispatcher.on('MESSAGE_CREATE', async (e) => {
 
 	var valid = false
 
-	content = content.replace(/^(<@!?353136023967891466>|!|\\)(.+)/, function(match, p1, p2) {
+	content = content.replace(/^(<@\d+>|!|\\)(.+)/, function(match, p1, p2) {
 		
 		if (p1 === '!' || p1 === '\\') {
 			valid = true
 			return match
 		} else if (p2 === undefined) {
 			return null
-		} else {
+		} else if (p1 === `<@${client.User.id}>`) {
 			valid = true
 			return p2.trim()
 		}
 	})
 
 	if (valid === false) return;
-
+	if (client.User.can(Discordie.Permissions.Text.SEND_MESSAGES, msg.channel) == false) return;
+	
 	(await ddg(content)).parse(msg.channel)
 })
 

@@ -87,3 +87,4 @@ $RECYCLE.BIN/
 *.env
 update.sh
 logo.png
+.rsync-exclude
