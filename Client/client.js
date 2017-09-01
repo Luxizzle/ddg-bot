@@ -24,6 +24,8 @@ client.Dispatcher.once('GATEWAY_READY', () => {
 })
 
 client.Dispatcher.on('MESSAGE_CREATE', async (e) => {
+	if (client.User.can(Discordie.Permissions.Text.SEND_MESSAGES, msg.channel) == false) return;
+
 	var msg = e.message
 	var author = msg.member || msg.author
 	var content = msg.content
@@ -46,7 +48,6 @@ client.Dispatcher.on('MESSAGE_CREATE', async (e) => {
 	})
 
 	if (valid === false) return;
-	if (client.User.can(Discordie.Permissions.Text.SEND_MESSAGES, msg.channel) == false) return;
 	
 	(await ddg(content)).parse(msg.channel)
 })
