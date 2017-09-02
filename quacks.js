@@ -4,13 +4,15 @@ module.exports = {
 		'the quacks',
 		`I'm duck #${process.env.SHARD_ID}`,
 		'on the keyboard',
-		'in the water'
+		'in the water',
+		'Quacking around'
 	],
 	no_results: [
 		'I couldn\'t quack any of that.',
 		'No results here.',
 		'Im no genious, just a duck.',
 		'No ducks found.',
-		'Quack!.'
+		'Quack!.',
+		'Stop quacking around.'
 	]
 }

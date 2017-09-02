@@ -15,7 +15,8 @@ var BlacklistedAnswerTypes = [
 
 var SpecialAnswerTypes = {
 	'color_code': (self, cb) => {
-		self.builder.title(self.data.Answer)
+		self.builder.title('Color')
+		self.builder.description(self.data.Answer.replace(/\s*~\s*/g, '\n'))
 		self.builder.url('https://duckduckgo.com/?' + query.stringify({
 			q: self.query
 		}))
@@ -105,8 +106,8 @@ class DDGResponse {
 
 			var text = topic.Text.slice(0, 50) + (topic.Text.length > 50 ? '…' : '')
 			var url = topic.FirstURL
-				.replace('(', '%28')
-				.replace(')', '%29')
+				.replace(/\(/g, '%28')
+				.replace(/\)/g, '%29')
 
 			var ndesc = desc + `[${text}](${url})\n`
 			//console.log(ndesc.length)

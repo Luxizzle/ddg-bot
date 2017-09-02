@@ -13,4 +13,3 @@ I couldn't find one that fully implemented the DDG API and i really didnt need a
 - Implement Name type (No clue what this is and i cant get a search with the type).
 - Better Exclusive answers.
 	- Calculator
-	- Colors

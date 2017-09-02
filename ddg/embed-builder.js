@@ -16,7 +16,7 @@ module.exports = class EmbedBuilder {
 	}
 
 	title(t) {
-		this.embed.title = t.slice(0, 200)
+		this.embed.title = t.slice(0, 256)
 		return this
 	}
 
