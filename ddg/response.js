@@ -44,7 +44,13 @@ class DDGResponse {
 		for (var i = 0; i <= Math.min(10, this.data.RelatedTopics.length-1); i++) {
 			var topic = this.data.RelatedTopics[i]
 			if (topic.Topics) continue;
-			var ndesc = desc + `[${topic.Text.slice(0, 50) + (topic.Text.length > 50 ? '…' : '')}](${topic.FirstURL})\n`
+
+			var text = topic.Text.slice(0, 50) + (topic.Text.length > 50 ? '…' : '')
+			var url = topic.FirstURL
+				.replace('(', '%28')
+				.replace(')', '%29')
+
+			var ndesc = desc + `[${text}](${url})\n`
 			//console.log(ndesc.length)
 			if (ndesc.length > 2048) { break }
 			desc = ndesc
