@@ -12,6 +12,7 @@ process.on('message', (msg) => {
 
 var Discordie = require('discordie');
 var ddg = require('../ddg')
+var quacks = require('../quacks')
 
 var client = new Discordie({
 	autoReconnect: true,
@@ -19,8 +20,15 @@ var client = new Discordie({
 	shardCount: parseInt(process.env.SHARD_COUNT)
 })
 
+function setGame() {
+	client.User.setGame(quacks.games[Math.floor(Math.random() * quacks.games.length)])
+}
+
 client.Dispatcher.once('GATEWAY_READY', () => {
 	console.log(`[${process.env.SHARD_ID}] ready - guilds: ` + client.Guilds.map((g) => g.name))
+
+	setInterval(setGame, 1000*60*5)
+	setGame()
 })
 
 client.Dispatcher.on('GUILD_CREATE', (e) => {

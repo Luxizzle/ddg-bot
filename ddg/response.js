@@ -1,5 +1,6 @@
 var EmbedBuilder = require('./embed-builder')
 var query = require('querystring')
+var quacks = require('../quacks')
 
 var BlacklistedAnswerTypes = [
 	'ip',
@@ -32,6 +33,8 @@ class DDGResponse {
 		if (this.data.Redirect !== '') { // for "Im feeling ducky redirects"
 			return this.Exclusive(cb)
 		}
+
+		cb(quacks.no_results[Math.floor(Math.random() * quacks.no_results.length)])
 	}
 
 	RelatedTopics() {
