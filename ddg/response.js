@@ -13,24 +13,24 @@ class DDGResponse {
 		this.builder = new EmbedBuilder()
 	}
 
-	parse(channel) {
+	parse(cb) {
 		switch(this.data.Type) {
-			case 'A':	return this.Article(channel)
+			case 'A':	return this.Article(cb)
 				break
-			case 'D':	return this.Disambiguation(channel)
+			case 'D':	return this.Disambiguation(cb)
 				break
-			case 'C':	return this.Category(channel)
+			case 'C':	return this.Category(cb)
 				break
-		//	case 'N': return this.Name(channel)
+		//	case 'N': return this.Name(cb)
 		//		break
-			case 'E': return this.Exclusive(channel)
+			case 'E': return this.Exclusive(cb)
 				break
-		//	default: return this.Default(channel)
+		//	default: return this.Default(cb)
 		//		break
 		}
 
 		if (this.data.Redirect !== '') { // for "Im feeling ducky redirects"
-			return this.Exclusive(channel)
+			return this.Exclusive(cb)
 		}
 	}
 
@@ -53,7 +53,7 @@ class DDGResponse {
 		this.builder.description(desc)
 	}
 
-	Article(channel) {
+	Article(cb) {
 		this.builder.title(this.data.Heading)
 		this.builder.url(this.data.AbstractURL)
 
@@ -70,10 +70,10 @@ class DDGResponse {
 
 		this.RelatedTopics()
 
-	 	return channel.sendMessage('', false, this.builder.embed)
+	 	return cb('', this.builder.embed)
 	}
 
-	Disambiguation(channel) {
+	Disambiguation(cb) {
 		this.builder.title(this.data.Heading)
 		this.builder.url(this.data.AbstractURL)
 
@@ -83,10 +83,10 @@ class DDGResponse {
 
 		this.RelatedTopics()
 
-		return channel.sendMessage('', false, this.builder.embed)
+		return cb('', this.builder.embed)
 	}
 
-	Category(channel) {
+	Category(cb) {
 		this.builder.title(this.data.Heading)
 		this.builder.url(this.data.AbstractURL)
 
@@ -96,23 +96,23 @@ class DDGResponse {
 
 		this.RelatedTopics()
 
-		return channel.sendMessage('', false, this.builder.embed)
+		return cb('', this.builder.embed)
 	}
 
-	Name(channel) { // Implement this, whatever it is.
+	Name(cb) { // Implement this, whatever it is.
 		console.log('Unsupported query: ' + this.query)
-		return channel.sendMessage('This appears to be an unsupported search, the owner has been notified.\n\n' + 'https://duckduckgo.com/?' + query.stringify({
+		return cb('This appears to be an unsupported search, the owner has been notified.\n\n' + 'https://duckduckgo.com/?' + query.stringify({
 			q: this.query
 		}))
 	}
 
-	Exclusive(channel) {
+	Exclusive(cb) {
 		if (BlacklistedAnswerTypes.some((v) => v == this.data.AnswerType)) {
-			return channel.sendMessage('Sorry, but this is a blacklisted answer.')
+			return cb('Sorry, but this is a blacklisted answer.')
 		}
 
 		if (this.data.Redirect !== '') {
-			return channel.sendMessage(this.data.Redirect)
+			return cb(this.data.Redirect)
 		}
 
 		if (typeof this.data.Answer === 'string' && this.data.Answer !== '') {
@@ -121,15 +121,13 @@ class DDGResponse {
 			this.builder.title('Can\'t parse answer, click me to go to DuckDuckGo.')
 		}
 
-		console.log(this.builder.embed.title)
-
 		this.builder.url('https://duckduckgo.com/?' + query.stringify({
 			q: this.query
 		}))
-		return channel.sendMessage('', false, this.builder.embed)
+		return cb('', false, this.builder.embed)
 	}
 
-	Default(channel) {
+	Default(cb) {
 		
 	}
 }

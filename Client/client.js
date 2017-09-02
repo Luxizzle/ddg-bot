@@ -23,6 +23,13 @@ client.Dispatcher.once('GATEWAY_READY', () => {
 	console.log(`[${process.env.SHARD_ID}] ready - guilds: ` + client.Guilds.map((g) => g.name))
 })
 
+client.Dispatcher.on('GUILD_CREATE', (e) => {
+	var guild = e.guild
+	if (!e.becameAvailable) {
+		console.log(`Joined ${guild.name}`)
+	}
+})
+
 client.Dispatcher.on('MESSAGE_CREATE', async (e) => {
 
 	var msg = e.message
@@ -50,7 +57,9 @@ client.Dispatcher.on('MESSAGE_CREATE', async (e) => {
 
 	if (valid === false) return;
 	
-	(await ddg(content)).parse(msg.channel)
+	(await ddg(content)).parse(function(content, embed) {
+		msg.channel.sendMessage(content || '', false, embed)
+	})
 })
 
 client.connect({ token: process.env.CLIENT_TOKEN })
