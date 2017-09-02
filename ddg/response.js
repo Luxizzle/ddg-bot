@@ -40,7 +40,7 @@ var SpecialAnswerTypes = {
 				}
 			})
 
-			self.builder.image(process.env.ROOT + '/colors/' + NAME + '.png')
+			self.builder.thumbnail(process.env.ROOT + '/colors/' + NAME + '.png')
 
 			fs.ensureDirSync(__dirname+'/../static/colors')
 
