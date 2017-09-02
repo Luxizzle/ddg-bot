@@ -133,7 +133,7 @@ class DDGResponse {
 		this.builder.url('https://duckduckgo.com/?' + query.stringify({
 			q: this.query
 		}))
-		return cb('', false, this.builder.embed)
+		return cb('', this.builder.embed)
 	}
 
 	Default(cb) {
