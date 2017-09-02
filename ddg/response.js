@@ -2,10 +2,65 @@ var EmbedBuilder = require('./embed-builder')
 var query = require('querystring')
 var quacks = require('../quacks')
 
-var BlacklistedAnswerTypes = [
-	'ip',
+var PNG = require('pngjs').PNG
+var fs = require('fs-extra')
 
+var BlacklistedAnswerTypes = [
+	'ip'
 ]
+
+// Hex: #C0FFEE ~ RGBA(192, 255, 238, 1) ~ RGB(75%, 100%, 93%) ~ HSL(164, 100%, 88%) ~ CMYB(25%, 0%, 7%, 0%)
+//Complementary: #FFBFD0
+//Analogous: #BFF0FF, #BFFFCE
+
+var SpecialAnswerTypes = {
+	'color_code': (self, cb) => {
+		self.builder.title(self.data.Answer)
+		self.builder.url('https://duckduckgo.com/?' + query.stringify({
+			q: self.query
+		}))
+
+		var R, G, B, NAME
+		self.data.Answer.replace(/Hex: #((?:\d|\w)+).*RGBA\((\d+),\s*(\d+),\s*(\d+),\s*\d+\)/, function(m, name, r, g, b) {
+			NAME = name
+			R = r
+			G = g
+			B = b
+		})
+		if (NAME && R && G && B) {
+			img = new PNG({
+				width: 100,
+				height: 100,
+				colorType: 2,
+				bgColor: {
+					red: R,
+					green: G,
+					blue: B
+				}
+			})
+
+			self.builder.image(process.env.ROOT + '/colors/' + NAME + '.png')
+
+			fs.ensureDirSync(__dirname+'/../static/colors')
+
+			if (fs.pathExistsSync(__dirname + '/../static/colors/' + NAME + '.png')) {
+				return cb('', self.builder.embed)
+			} else {
+				img.pack().pipe(fs.createWriteStream(__dirname + '/../static/colors/' + NAME + '.png'))
+					.on('finish', () => {
+						return cb('', self.builder.embed)
+					})
+			}
+
+			
+			
+		} else {
+			return cb('', self.builder.embed)
+		}
+
+		
+	}
+}
 
 class DDGResponse {
 	constructor(data, query) {// console.log(data)
@@ -119,6 +174,8 @@ class DDGResponse {
 		if (BlacklistedAnswerTypes.some((v) => v == this.data.AnswerType)) {
 			return cb('Sorry, but this is a blacklisted answer.')
 		}
+
+		if (SpecialAnswerTypes[this.data.AnswerType]) return SpecialAnswerTypes[this.data.AnswerType](this, cb);
 
 		if (this.data.Redirect !== '') {
 			return cb(this.data.Redirect)

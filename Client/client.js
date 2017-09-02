@@ -12,6 +12,7 @@ process.on('message', (msg) => {
 
 var Discordie = require('discordie');
 var ddg = require('../ddg')
+var fs = require('fs')
 var quacks = require('../quacks')
 
 var client = new Discordie({

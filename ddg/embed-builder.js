@@ -16,7 +16,7 @@ module.exports = class EmbedBuilder {
 	}
 
 	title(t) {
-		this.embed.title = t.slice(0, 100)
+		this.embed.title = t.slice(0, 200)
 		return this
 	}
 
@@ -30,6 +30,12 @@ module.exports = class EmbedBuilder {
 			url: img
 		}
 		return this
+	}
+
+	image(url) {
+		this.embed.image = {
+			url: url
+		}
 	}
 
 	description(t) {
