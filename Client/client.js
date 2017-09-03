@@ -14,6 +14,8 @@ var Discordie = require('discordie');
 var ddg = require('../ddg')
 var fs = require('fs')
 var quacks = require('../quacks')
+var discordBotsApi
+try { discordBotsApi = require('./discord-bots-api') } catch(e) {}
 
 var client = new Discordie({
 	autoReconnect: true,
@@ -30,12 +32,44 @@ client.Dispatcher.once('GATEWAY_READY', () => {
 
 	setInterval(setGame, 1000*60*5)
 	setGame()
+
+	if (discordBotsApi) {
+		discordBotsApi(
+			client.User.id,
+			parseInt(process.env.SHARD_ID),
+			parseInt(process.env.SHARD_COUNT),
+			client.Guilds.length
+		)
+	}
 })
 
 client.Dispatcher.on('GUILD_CREATE', (e) => {
 	var guild = e.guild
-	if (!e.becameAvailable) {
-		console.log(`Joined ${guild.name}`)
+	if (e.becameAvailable) return;
+	
+	console.log(`Joined ${guild.name}`)
+
+	if (discordBotsApi) {
+		discordBotsApi(
+			client.User.id,
+			parseInt(process.env.SHARD_ID),
+			parseInt(process.env.SHARD_COUNT),
+			client.Guilds.length
+		)
+	}
+})
+
+client.Dispatcher.on('GUILD_DELETE', (e) => {
+	var guild = e.getCachedData()
+	if (guild.name) console.log(`Left ${guild.name}`);
+
+	if (discordBotsApi) {
+		discordBotsApi(
+			client.User.id,
+			parseInt(process.env.SHARD_ID),
+			parseInt(process.env.SHARD_COUNT),
+			client.Guilds.length
+		)
 	}
 })
 

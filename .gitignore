@@ -88,4 +88,4 @@ $RECYCLE.BIN/
 update.sh
 logo.png
 .rsync-exclude
-static/
+static/colors

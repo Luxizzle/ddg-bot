@@ -9,10 +9,6 @@ var BlacklistedAnswerTypes = [
 	'ip'
 ]
 
-// Hex: #C0FFEE ~ RGBA(192, 255, 238, 1) ~ RGB(75%, 100%, 93%) ~ HSL(164, 100%, 88%) ~ CMYB(25%, 0%, 7%, 0%)
-//Complementary: #FFBFD0
-//Analogous: #BFF0FF, #BFFFCE
-
 var SpecialAnswerTypes = {
 	'color_code': (self, cb) => {
 		self.builder.title('Color')
@@ -52,14 +48,9 @@ var SpecialAnswerTypes = {
 						return cb('', self.builder.embed)
 					})
 			}
-
-			
-			
 		} else {
 			return cb('', self.builder.embed)
 		}
-
-		
 	}
 }
 
@@ -78,12 +69,10 @@ class DDGResponse {
 				break
 			case 'C':	return this.Category(cb)
 				break
-		//	case 'N': return this.Name(cb)
-		//		break
+			case 'N': return this.Name(cb)
+				break
 			case 'E': return this.Exclusive(cb)
 				break
-		//	default: return this.Default(cb)
-		//		break
 		}
 
 		if (this.data.Redirect !== '') { // for "Im feeling ducky redirects"
@@ -110,7 +99,6 @@ class DDGResponse {
 				.replace(/\)/g, '%29')
 
 			var ndesc = desc + `[${text}](${url})\n`
-			//console.log(ndesc.length)
 			if (ndesc.length > 2048) { break }
 			desc = ndesc
 		}

@@ -2,14 +2,14 @@ module.exports = class EmbedBuilder {
 	constructor() {
 		this.embed = {
 			color: 0xDE5833,
-			/* footer: {
-				text: 'Results from DuckDuckGo | Bot by Luxizzle',
-				icon_url: 'https://cdn.discordapp.com/attachments/168421568387612672/353125335425875969/DDG_Dax.1x.png'
-			}, */
+			footer: {
+				text: 'Results from DuckDuckGo',
+				icon_url: process.env.ROOT + '/logos/DDG_Dax.2x.png'
+			},
 			author: {
-				name: 'Results from DuckDuckGo | Bot By Luxizzle',
-				url: 'https://discordapp.com/oauth2/authorize?client_id=353136023967891466&scope=bot&permissions=52224',
-				icon_url: 'https://cdn.discordapp.com/attachments/168421568387612672/353125335425875969/DDG_Dax.1x.png'
+				name: 'DuckDuckGo Bot Server',
+				url: 'https://discord.gg/rWaU5KZ',
+				icon_url: process.env.ROOT + '/logos/DDG_Dax.2x.png'
 			},
 			description: ''
 		}
