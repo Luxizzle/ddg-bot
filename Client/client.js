@@ -14,6 +14,7 @@ var Discordie = require('discordie');
 var ddg = require('../ddg')
 var fs = require('fs')
 var quacks = require('../quacks')
+var log = require('./log')
 var discordBotsApi
 try { discordBotsApi = require('./discord-bots-api') } catch(e) {}
 
@@ -28,7 +29,7 @@ function setGame() {
 }
 
 client.Dispatcher.once('GATEWAY_READY', () => {
-	console.log(`[${process.env.SHARD_ID}] ready - guilds: ` + client.Guilds.map((g) => g.name))
+	log(`ready - guilds: ` + client.Guilds.map((g) => g.name))
 
 	setInterval(setGame, 1000*60*5)
 	setGame()
@@ -47,7 +48,7 @@ client.Dispatcher.on('GUILD_CREATE', (e) => {
 	var guild = e.guild
 	if (e.becameAvailable) return;
 	
-	console.log(`Joined ${guild.name}`)
+	log(`Joined ${guild.name}`)
 
 	if (discordBotsApi) {
 		discordBotsApi(
@@ -61,7 +62,7 @@ client.Dispatcher.on('GUILD_CREATE', (e) => {
 
 client.Dispatcher.on('GUILD_DELETE', (e) => {
 	var guild = e.getCachedData()
-	if (guild.name) console.log(`Left ${guild.name}`);
+	if (guild.name) log(`Left ${guild.name}`);
 
 	if (discordBotsApi) {
 		discordBotsApi(

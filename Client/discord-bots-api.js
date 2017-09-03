@@ -1,4 +1,5 @@
 var fetch = require('node-fetch')
+var log = require('./log')
 
 module.exports = function(userid, shardid, shardcount, guilds) {
 	if (!process.env.DISCORD_BOTS_TOKEN) return;
@@ -14,7 +15,7 @@ module.exports = function(userid, shardid, shardcount, guilds) {
 		})
 	})
 		.then(() => {
-			console.log('Pushed stats. Now in ' + guilds + ' guilds')
+			log('Pushed stats. Now in ' + guilds + ' guilds')
 		})
 		.catch(console.warn)
 }
