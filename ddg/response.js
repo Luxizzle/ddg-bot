@@ -26,8 +26,8 @@ var SpecialAnswerTypes = {
 		})
 		if (NAME && R && G && B) {
 			img = new PNG({
-				width: 100,
-				height: 100,
+				width: 80,
+				height: 80,
 				colorType: 2,
 				bgColor: {
 					red: R,
