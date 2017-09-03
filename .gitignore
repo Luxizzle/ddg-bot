@@ -84,7 +84,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-*.env
+.env
 update.sh
 logo.png
 .rsync-exclude
