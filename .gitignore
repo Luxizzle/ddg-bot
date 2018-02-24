@@ -86,6 +86,7 @@ $RECYCLE.BIN/
 
 .env
 update.sh
+update
 logo.png
 .rsync-exclude
 static/colors

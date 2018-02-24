@@ -10,7 +10,7 @@ module.exports = {
 	no_results: [
 		'I couldn\'t quack any of that.',
 		'No results here.',
-		'Im no genious, just a duck.',
+		'Im no genius, just a duck.',
 		'No ducks found.',
 		'Quack!.',
 		'Stop quacking around.'
